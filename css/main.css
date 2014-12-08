@@ -1,0 +1,46 @@
+img.no-border{
+    box-shadow: none !important;
+    border: none !important;
+    background: none !important;
+}
+div.img-wrapper {
+  position: relative; }
+  div.img-wrapper > div.img-label {
+    font-size: 24px;
+    line-height: 1.1;
+    position: absolute;
+    width: 200px;
+    margin-left: -100px; }
+.enjoyment{
+    color: #585858;
+}
+.enjoyment .enjoy-1 {
+  top: 280px;
+  left: 250px; }
+.enjoyment .enjoy-2 {
+  bottom: 30px;
+  left: 400px; }
+.enjoyment .enjoy-3 {
+  top: 100px;
+  left: 550px; }
+.enjoyment .enjoy-4 {
+  bottom: 50px;
+  left: 700px; }
+.enjoyment .enjoy-5 {
+  top: 100px;
+  right: -10px; }
+.enjoyment .enjoy-6 {
+bottom: 160px;
+left: 710px;}
+input{font-size: 30px}
+input{
+    height: 30px !important;
+}
+button{
+    color:#eaeaea;
+    font-size: 30px;
+    border-radius: 4px !important;
+    padding: 10px;
+    background-color: #3FAAF2;
+    border: none !important;
+}

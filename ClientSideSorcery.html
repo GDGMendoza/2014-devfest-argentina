@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="en" ng-app="myApp">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>AngularJS: Client-side Sorcery</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="css/main.css"/>
+    <link rel="stylesheet" href="css/reveal.min.css">
+    <link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+        document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<div class="reveal">
+<div class="slides">
+
+<!-- DIAPO: 1-->
+<section data-background="#eaeaea">
+    <img class="no-border" src="img/angularjs.jpeg" alt=""/>
+    <h2 style="color:#222222">Client-Side Sorcery</h2>
+</section>
+<!-- DIAPO: 1-->
+
+<!-- DIAPO: 2-->
+<section>
+    <h3 style="color:#BCD961;font-weight: bolder">¿QUIENES SOMOS?</h3>
+    <img src="img/hernan-robot.png" alt="" class="no-border"/>
+    <img src="img/heber-robot.png" alt="" class="no-border"/>
+    <h4 style="color:#e73d3d;font-weight: bolder;position: absolute;left: 230px; bottom: -17px">@hermagrini</h4>
+    <h4 style="color:#e73d3d;font-weight: bolder;position: absolute;right: 210px;  bottom: -17px">@heberlz</h4>
+</section>
+<!-- DIAPO: 2-->
+
+
+<!-- DIAPO: 3-->
+<section>
+    <!-- DIAPO: 3.2-->
+    <section data-background="#BFE1EA">
+        <h2 style="color:#585858">Ciclo de Vida</h2>
+        <div class="img-wrapper enjoyment">
+            <img src="img/enjoyment.png">
+            <div class="enjoy-1 img-label">Angular<br>RULZ</div>
+            <div class="enjoy-2 img-label">I'm doing <br>something wrong!</div>
+            <div class="enjoy-3 img-label">services,<br>modules</div>
+            <div class="enjoy-4 img-label">@#$%</div>
+            <div class="enjoy-5 img-label">promises,<br>directives,<br>...</div>
+            <div class="enjoy-6 img-label fragment visible" data-fragment-index="1">
+                Kickstart from here!
+                <img class="no-border" style="width: 80px;" src="img/downarrow.png" alt=""/>
+            </div>
+        </div>
+    </section>
+    <!-- DIAPO: 3.2-->
+
+    <!-- DIAPO: 3.4-->
+    <section ng-controller="diapo34" id="diapo34" data-background="img/blueprint.jpg">
+        <h1>Demo 1</h1>
+        <h2 >¿Quién es
+            <input type="text" ng-model="el.elegido" style="height: 50px !important; line-height: 90px; font-size: 30px"/> <span style="font-size:1em"></span>
+            <span style="font-size:1em">{{el.elegido}}</span>
+            ?
+        </h2>
+        <button ng-click="quienEs(el.elegido)">Respondeme!</button>
+    </section>
+    <!-- DIAPO: 3.4-->
+
+    <!-- DIAPO: 3.3-->
+    <section data-background="#d8e8be">
+        <h2 style="color:#585858">Double-way Binding</h2>
+        <h4 style="color:#585858">app.js</h4>
+                    <pre><code>
+var miModulo = angular.module('miModulo', []);
+miModulo.controller('MainController',['$scope',function($scope){
+    $scope.heroe = {fuerte:'hulk',rapido:'quicksilver',invisible:''};
+    $scope.quienEs = function(elegido){
+        if(confirm('You sure you want to know?')) $scope.el.elegido = '';
+    };
+}]);
+angular.element(document).ready(function(){
+    angular.bootstrap(document, ['miModulo']);
+});
+                    </code></pre>
+        <h4 style="color:#585858">app.html</h4>
+                    <pre><code>
+&lt;body ng-app='miModulo' &gt;
+    &lt;div ng-controller="MainController"&gt;
+        &lt;input type="text" ng-model="el.elegido"/&gt;
+        &#123; &#123;el.elegido&#125; &#125;
+        &lt;button ng-click="quienEs(el.elegido)"&gt;&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+                    </code></pre>
+    </section>
+    <!-- DIAPO: 3.3-->
+
+    <section data-background="#BFE1EA">
+        <h2 style="color:#585858">Jerarquía controller / $scope</h2>
+        <h4 style="color:#585858">app.js</h4>
+                    <pre><code>
+miModulo.controller('ParentController',['$scope',function($scope){
+    $scope.heroe = {fuerte:'hulk',rapido:'quicksilver',invisible:''};
+}]);
+miModulo.controller('ChildController',['$scope',function($scope){
+    $scope.quienEs = function(elegido){
+        if(confirm('You sure you want to know?')){
+            $scope.el.elegido = '';
+            alert($scope.heroe[elegido]);
+        }
+    };
+}]);
+                    </code></pre>
+                <h4 style="color:#585858">app.html</h4>
+                    <pre><code>
+&lt;div ng-controller="ParentController" &gt;
+    &lt;div ng-controller="ChildController"&gt;
+        &lt;input type="text" ng-model="el.elegido"/&gt;
+        &lt;button ng-click="quienEs(el.elegido)"&gt;&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+                    </code></pre>
+    </section>
+
+<!-- DIAPO: 3.8-->
+    <section data-background="#d8e8be">
+        <h2 style="color:#585858">Datos entre controllers</h2>
+        <pre><code>
+miModulo.service('myService',function(){
+    this.heroe = '';
+});
+miModulo.controller('mainCtrl',['$scope','myService',function($scope,myService){
+    $scope.service = myService;
+    $scope.service.heroe = 'iron man';
+    $scope.heroe = 'green lantern';
+});
+miModulo.controller('secondaryCtrl',['$scope','myService',function($scope,myService){
+    $scope.service = myService;
+    console.log($scope.service.heroe);
+    console.log($scope.heroe);
+});
+        </code></pre>
+        <h3 style="color:#585858" class="fragment fade-in no-border" data-fragment-index="1">Resultado:</h3>
+        <pre class="fragment fade-in no-border" data-fragment-index="1"><code>
+"iron man"
+undefined
+        </code></pre>
+    </section>
+    <!-- DIAPO: 3.8-->
+
+</section>
+<!-- DIAPO: 3-->
+
+
+<!-- DIAPO: 5-->
+<section>
+    <!-- DIAPO: 5.1-->
+    <section data-background="img/teaching.jpeg">
+        <h1>Enseñemosle HTML al Browser</h1>
+    </section>
+    <!-- DIAPO: 5.1-->
+
+
+    <!-- DIAPO: 5.2-->
+    <section data-background="#BFE1EA">
+        <h2 style="color:#585858">Directives</h2>
+        <h3 style="color:#585858">app.js</h3>
+        <pre><code>
+miModulo.directive('theAvengersFueUnaPeliculaTaquillera',function(){
+    return {
+        restrict:'EAC',
+        template:"&lt;div&gt; nuevo avenger! &lt;/div&gt;"
+    }
+});
+        </code></pre>
+        <h3 style="color:#585858">app.html</h3>
+        <pre><code>
+&lt;the-avengers-fue-una-pelicula-taquillera&gt;&lt;/the-avengers-fue-una-pelicula-taquillera&gt;
+&lt;div the-avengers-fue-una-pelicula-taquillera&gt;&lt;/div&gt;
+&lt;div class="the-avengers-fue-una-pelicula-taquillera"&gt;&lt;/div&gt;
+        </code></pre>
+    </section>
+    <!-- DIAPO: 5.2-->
+
+
+    <!-- DIAPO: 5.3-->
+    <section data-background="#d8e8be">
+        <h2 style="color:#585858">manipulando dom</h2>
+        <h3 style="color:#585858">elem & angular.element</h3>
+        <pre><code>
+miModulo.directive('avenger',function(){
+    return {
+        restrict:'EAC',
+        templateUrl:"avenger.html",
+        link: function(scope,elem,attrs){
+            elem.bind('click',function(){
+                elem.toggleClass('assembled');
+            }
+            var elemChild = angular.element(elem[0]);
+            elemChild.hide();
+        }
+    }
+});
+        </code></pre>
+        <h3 style="color:#585858">JQLite</h3>
+        <a href="http://docs.angularjs.org/api/angular.element" style="color:#e73d3d !important">Available Methods</a>
+    </section>
+    <!-- DIAPO: 5.3-->
+
+
+    <!-- DIAPO: 5.4-->
+    <section data-background="#BFE1EA">
+        <h2 style="color:#585858">Atributos del dom</h2>
+        <h3 style="color:#585858">app.html</h3>
+        <pre><code>
+&lt;div avengers="asembled" cantidad="20"&gt;&lt;/div&gt;
+        </code></pre>
+        <h3 style="color:#585858">app.js</h3>
+        <pre><code>
+link: function(scope,elem,attrs){
+    console.log(attrs.avengers);
+    console.log(attrs.cantidad);
+}
+        </code></pre>
+    </section>
+    <!-- DIAPO: 5.4-->
+
+
+    <!-- DIAPO: 5.5-->
+    <section data-background="#d8e8be">
+        <h2 style="color:#585858">Shared Scopes</h2>
+        <h4 style="color:#585858">app.js</h4>
+        <pre><code>
+miModulo.directive('avenger',function(){
+    return {
+        restrict:'E',
+        template:'&lt;input type="text" ng-model="heroe.nombre"&gt;{ {heroe.nombre} }'
+    }
+});
+        </code></pre>
+        <h4 style="color:#585858">app.html</h4>
+        <pre><code>
+            &lt;avenger&gt;&lt;/avenger&gt;
+            &lt;avenger&gt;&lt;/avenger&gt;
+        </code></pre>
+    </section>
+    <!-- DIAPO: 5.5-->
+
+    <section data-background="img/blueprint.jpg">
+        <h1>Demo 2</h1>
+        <avenger-diapo-55 style="display: block;"></avenger-diapo-55>
+        <avenger-diapo-55 style="display: block;"></avenger-diapo-55>
+    </section>
+
+
+    <!-- DIAPO: 5.6-->
+    <section data-background="#BFE1EA">
+        <h2 style="color:#585858">Isolate Scope</h2>
+        <h4 style="color:#585858">app.js</h4>
+                    <pre><code>
+miModulo.directive('avenger',function(){
+    return {
+        restrict:'E',
+        scope:{},
+        template:'&lt;input type="text" ng-model="heroe.nombre"&gt;{ {heroe.nombre} }'
+    }
+});
+        </code></pre>
+        <h4 style="color:#585858">app.html</h4>
+        <pre><code>
+            &lt;avenger&gt;&lt;/avenger&gt;
+            &lt;avenger&gt;&lt;/avenger&gt;
+        </code></pre>
+    </section>
+    <!-- DIAPO: 5.6-->
+
+    <section data-background="img/blueprint.jpg">
+        <h1>Demo 3</h1>
+        <avenger-diapo-56 style="display: block;"></avenger-diapo-56>
+        <avenger-diapo-56 style="display: block;"></avenger-diapo-56>
+    </section>
+
+
+    <!-- DIAPO: 5.7-->
+    <section data-background="#d8e8be">
+        <h2 style="color:#585858">Isolate Scopes: "@", "&", "="</h2>
+        <h3 style="color:#585858">app.html</h3>
+        <pre><code>
+&lt;avenger estatico="{ {heroe.nombre} }" funcion="llamarHeroe()" objeto="heroe" &gt;&lt;/avenger&gt;
+        </code></pre>
+        <h3 style="color:#585858">app.js</h3>
+        <pre><code>
+miModulo.controller('MainController',['$scope',function($scope){
+    $scope.heroe = {nombre:'tony stark'};
+    $scope.llamarHeroe = function(){
+        console.log('Llamando ' + $scope.heroe.nombre);
+    };
+}]);
+        </code></pre>
+    </section>
+    <!-- DIAPO: 5.7-->
+
+
+    <!-- DIAPO: 5.8-->
+    <section data-background="#BFE1EA" ng-controller="diapo58">
+        <h2 style="color:#585858">Sorcery time!</h2>
+        <pre><code>
+scope:{estatico:'@',funcion:'&',objeto:'='},
+link:function(scope,elem,attrs){
+    scope.funcion();
+    scope.estatico = 'justin bieber';
+    scope.funcion();
+    scope.objeto.nombre = 'loki';
+    scope.funcion();
+}
+        </code></pre>
+        <avenger-diapo-58 estatico="{{heroe.nombre}}" funcion="llamarHeroe()" objeto="heroe"></avenger-diapo-58>
+    </section>
+    <!-- DIAPO: 5.8-->
+
+    <section data-background="img/blueprint.jpg">
+        <h1>Demo 4</h1>
+        <thor mjolnir></thor>
+        <pre><code>
+&lt;thor mjolnir&gt;&lt;/thor&gt;
+        </code></pre>
+    </section>
+
+</section>
+<!-- DIAPO: 5-->
+
+<!-- DIAPO: 6-->
+<section data-background="img/event.jpg">
+    <section>
+        <h1 style="position: absolute;top: -150px;">Talking about Events</h1>
+    </section>
+    <section data-background="#d8e8be">
+        <h2 style="color:#585858">$on</h2>
+        <pre><code>
+$scope.$on('avengers:assemble',function(data){
+    console.log(data.msg);
+})
+        </code></pre>
+        <h2 style="color:#585858">$broadcast</h2>
+        <pre><code>
+$scope.$broadcast('avengers:assemble',{msg:"tony, come asap"})
+        </code></pre>
+        <h2 style="color:#585858">$emit</h2>
+        <pre><code>
+$scope.$emit('avengers:assemble',{msg:"base, requesting backup"})
+        </code></pre>
+    </section>
+</section>
+<!-- DIAPO: 6-->
+
+<!-- DIAPO: 4-->
+<section>
+    <!-- DIAPO: 4.1-->
+    <section data-background="img/promise.jpg">
+        <h2 style="position: absolute;top: -250px;margin-left: 160px;">Vamos a hacer promesas</h2>
+        <h3 style="position: absolute;top: -150px;right: 230px;" class="fragment">literalmente</h3>
+    </section>
+    <!-- DIAPO: 4.1-->
+
+    <!-- DIAPO: 4.2-->
+    <section data-background="#d8e8be">
+        <h2 style="color:#585858">Dependencia: <span>$q</span></h2>
+        <pre><code>
+$scope.completar = function($q){
+    var defer = $q.defer();
+    if($scope.condition){
+        defer.resolve('conlleva una gran responsabilidad');
+    }else{
+        defer.reject('conlleva una gran factura eléctrica?');
+    }
+    return defer.promise;
+}
+        </code></pre>
+    </section>
+    <!-- DIAPO: 4.2-->
+
+    <!-- DIAPO: 4.3-->
+    <section data-background="#BFE1EA">
+        <h2 style="color:#585858">¿y despues?</h2>
+        <pre><code>
+$scope.completar().then(
+    function(success){
+        console.log('Un gran poder ',success);
+    },
+    function(error){
+        console.log('Un gran poder ',error);
+    });
+        </code></pre>
+    </section>
+    <!-- DIAPO: 4.3-->
+
+    <section data-background="#d8e8be">
+        <h2 style="color:#585858">$routeProvider</h2>
+        <h4 style="color:#585858">app.js</h4>
+        <pre><code>
+miModulo.config(function($routeProvider) {
+    $routeProvider
+        .when('/heroe',{controller:'mainCtrl',
+                        templateUrl:'heroes.html',
+                        resolve:promise:function{}})
+        .when('/heroe/:id', {...} )
+        .otherwise({redirectTo:'/'});
+        });
+miModulo.controller('mainCtrl',['$scope','$routeParams',function($scope,$routeParams){
+    alert($routeParams.id);
+});
+        </code></pre>
+        <h4 style="color:#585858">app.html</h4>
+        <pre><code>
+&lt;header&gt;Heroes APP&lt;/header&gt;
+&lt;div ng-view&gt;&lt;/div&gt;
+&lt;footer&gt;Developed by Dr.Storm&lt;/footer&gt;
+        </code></pre>
+    </section>
+
+</section>
+<!-- DIAPO: 4-->
+
+
+<section data-background="img/volver.jpg">
+    <h2 style="position: absolute;top: -200px;">Follow us on:</h2>
+    <h3 style="position: absolute;top: -120px;">@GDGMendoza</h3>
+    <h3 style="position: absolute;top: -40px;">@HeberLZ</h3>
+    <h3 style="position: absolute;top: 40px;">@HerMagrini</h3>
+</section>
+
+
+</div>
+
+
+
+
+
+</div>
+
+<div id="hola"></div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.min.js"></script>
+<script src="js/angular.min.js"></script>
+<script src="js/app.js"></script>
+
+<script>
+
+    // Full list of configuration options available here:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+            { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+            { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: 'js/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+            { src: 'js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+            { src: 'notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+    });
+
+</script>
+
+</body>
+</html>
